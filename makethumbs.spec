@@ -1,7 +1,7 @@
 Name:		makethumbs
 Summary:	Web gallery generator
 Version:	1.239
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	Public Domain
 Group:		Graphics
 URL:		http://www.molenda.com/makethumbs/
