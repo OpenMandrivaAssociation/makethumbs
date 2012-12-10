@@ -1,7 +1,7 @@
 Name:		makethumbs
 Summary:	Web gallery generator
 Version:	1.239
-Release:	%mkrel 3
+Release:	4
 License:	Public Domain
 Group:		Graphics
 URL:		http://www.molenda.com/makethumbs/
@@ -11,7 +11,7 @@ Source3:	http://www.molenda.com/makethumbs/doc/makethumbs.sgml
 Requires:	imagemagick
 Suggests:	metacam jhead
 BuildRequires:	docbook-utils-pdf docbook-utils docbook-dtd41-sgml
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRequires:	texlive
 BuildArch:	noarch
 %description
 makethumbs.sh and rotate.sh are scripts to create polished, static image
@@ -43,12 +43,25 @@ cd %{name}-%{version}
 
 chmod a+x %{buildroot}%{_bindir}/*
 
-%clean
-%{__rm} -Rf %{buildroot}
-
 %files
 %defattr(-,root,root)
 %doc %{name}-%{version}/html
 %doc %{name}-%{version}/makethumbs.pdf
 %{_bindir}/makethumbs.sh
 %{_bindir}/rotate.sh
+
+
+%changelog
+* Fri Dec 10 2010 Oden Eriksson <oeriksson@mandriva.com> 1.239-3mdv2011.0
++ Revision: 620293
+- the mass rebuild of 2010.0 packages
+
+* Mon Sep 14 2009 Thierry Vignaud <tv@mandriva.org> 1.239-2mdv2010.0
++ Revision: 439702
+- rebuild
+
+* Fri Feb 27 2009 Nicolas Vigier <nvigier@mandriva.com> 1.239-1mdv2009.1
++ Revision: 345602
+- import makethumbs
+
+

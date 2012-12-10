@@ -1,0 +1,3116 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+<!-- $Id: makethumbs.sgml,v 1.10 2002/05/07 05:48:57 jason Exp $ -->
+
+<book>
+  <title>makethumbs documentation</title>
+  <bookinfo>
+    <author><firstname>Jason</firstname><surname>Molenda</surname></author>
+  </bookinfo>
+  
+<part label="I"><title>Introduction</title>
+<chapter id="ch-01"><title>Introduction to makethumbs</title>
+  <para>
+     <command>makethumbs</command> is a script to create thumbnail
+     galleries on Unix systems.  It has lots of options, which are
+     currently only described in the reference section.  The reference
+     section is complete; the rest of the manual remains to be written.
+     I'll flesh out these Intro chapters at a later date but I wanted to
+     get this on-line so the reference materials were available to people.
+  </para>
+</chapter>
+</part>
+
+<part label="II"><title>Reference</title>
+
+<reference><title>makethumbs variable reference</title>
+
+<refentry id="ref.body-tag">
+
+  <refmeta>
+  <refentrytitle><varname>body_tag</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>body_tag</varname></refname>
+  <refpurpose>override the default <sgmltag>BODY</sgmltag> for all HTML pages</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     body_tag="&lt;body&gt;"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     This is the most often overridden default setting.
+     <command>makethumbs</command> will use the <varname>body_tag</varname>
+     for its <sgmltag>BODY</sgmltag> tag for all HTML pages
+     <command>makethumbs</command> creates.  You can set a background
+     image, or the color, or the text color by setting this variable.
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <para>
+     Adding an entry like the following to your 
+     <filename>~/.makethumbsrc</filename> file:
+  </para>
+  <informalexample>
+  <programlisting>
+       body_tag="&lt;body bgcolor="black" text="#ffffff" link="red" alink="yellow" vlink="green"&gt;"
+  </programlisting>
+  </informalexample>
+  <para>
+     Will make all of your web pages have a black background, white foreground, and various colors for different states of links.  Yummy.
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.boilerplate-after-title">
+
+  <refmeta>
+  <refentrytitle><varname>boilerplate_after_title</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>boilerplate_after_title</varname></refname>
+  <refname><varname>boilerplate_index_after_title</varname></refname>
+  <refname><varname>boilerplate_slideshow_after_title</varname></refname>
+  <refpurpose>text to be inserted after the page title</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     boilerplate_after_title=""
+     boilerplate_index_after_title=""
+     boilerplate_slideshow_after_title=""
+  </synopsis>
+  <anchor id="ref.boilerplate-index-after-title">
+  <anchor id="ref.boilerplate-slideshow-after-title">
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     This variable can be used to have template text inserted on all HTML
+     pages created, after the page title (the &lt;<sgmltag>H1</sgmltag>&gt;
+     etc. tag).  This text will come directly after the title
+     and before the thumbnail table.
+     These variables are useful if you have a defined site style with
+     template markup that go at the top and bottom of pages&mdash;add
+     the template code here (or point to a file including the template)
+     and all the HTML files <command>makethumbs</command> creates will
+     contain your templates.
+  </para>
+  <para>
+     As with <varname>boilerplate_end_of_page</varname>,
+     <varname>boilerplate_before_title</varname>, and
+     <varname>boilerplate_insert_in_head</varname>, this variable has
+     three versions.  <varname>boilerplate_after_title</varname>
+     will be used for all HTML pages.  If you want to add something
+     to the top of only your <emphasis>index pages</emphasis>, you
+     should use <varname>boilerplate_index_after_title</varname>; to
+     change the top of the <emphasis>slideshow pages</emphasis>
+     use <varname>boilerplate_slideshow_after_title</varname>.
+  </para>
+  <para>
+     Note that the <varname>boilerplate_after_title</varname> variable
+     will not be used if <varname>boilerplate_index_after_title</varname>
+     or <varname>boilerplate_slideshow_after_title</varname> is
+     set&mdash;those will take precedence for their given sets of pages.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.boilerplate-before-title">
+     <citerefentry><refentrytitle><varname>boilerplate_before_title</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.index-page-title-start-html">
+     <citerefentry><refentrytitle><varname>index_page_title_start_html</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.slideshow-page-title-start-html">
+     <citerefentry><refentrytitle><varname>slideshow_page_title_start_html</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <para>
+     Assuming the template code for your HTML pages is
+     in <filename>/www/htdocs/table-start.txt</filename>,
+     you can have <command>makethumbs</command> put the text in
+     <filename>table-start.txt</filename> at the front of the thumbnail
+     table with a <filename>~/.makethumbsrc</filename> entry like this:
+  </para>
+  <informalexample>
+  <programlisting>
+     boilerplate_after_title="/www/htdocs/table-start.txt"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.boilerplate-before-title">
+
+  <refmeta>
+  <refentrytitle><varname>boilerplate_before_title</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>boilerplate_before_title</varname></refname>
+  <refname><varname>boilerplate_index_before_title</varname></refname>
+  <refname><varname>boilerplate_slideshow_before_title</varname></refname>
+  <refpurpose>text to be inserted before the page title</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     boilerplate_before_title=""
+     boilerplate_index_before_title=""
+     boilerplate_slideshow_before_title=""
+  </synopsis>
+  <anchor id="ref.boilerplate-index-before-title">
+  <anchor id="ref.boilerplate-slideshow-before-title">
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     This variable can be used to have template text inserted on all HTML
+     pages created, before the page title (the &lt;<sgmltag>H1</sgmltag>&gt;
+     etc. tag).  This text will come directly after the opening
+     &lt;<sgmltag>BODY</sgmltag>&gt; tag and before the title tag.
+     These variables are useful if you have a defined site style with
+     template markup that go at the top and bottom of pages&mdash;add
+     the template code here (or point to a file including the template)
+     and all the HTML files <command>makethumbs</command> creates will
+     contain your templates.
+  </para>
+  <para>
+     As with <varname>boilerplate_end_of_page</varname>,
+     <varname>boilerplate_after_title</varname>, and
+     <varname>boilerplate_insert_in_head</varname>, this variable has
+     three versions.  <varname>boilerplate_before_title</varname>
+     will be used for all HTML pages.  If you want to add something
+     to the top of only your <emphasis>index pages</emphasis>, you
+     should use <varname>boilerplate_index_before_title</varname>; to
+     change the top of the <emphasis>slideshow pages</emphasis>
+     use <varname>boilerplate_slideshow_before_title</varname>.
+  </para>
+  <para>
+     Note that the <varname>boilerplate_before_title</varname> variable
+     will not be used if <varname>boilerplate_index_before_title</varname>
+     or <varname>boilerplate_slideshow_before_title</varname> is
+     set&mdash;those will take precedence for their given sets of pages.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.body-tag">
+     <citerefentry><refentrytitle><varname>body_tag</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.boilerplate-after-title">
+     <citerefentry><refentrytitle><varname>boilerplate_after_title</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.index-page-title-start-html">
+     <citerefentry><refentrytitle><varname>index_page_title_start_html</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.slideshow-page-title-start-html">
+     <citerefentry><refentrytitle><varname>slideshow_page_title_start_html</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <para>
+     Assuming the template code for your HTML pages is
+     in <filename>/www/htdocs/page-start.txt</filename>, you can
+     have <command>makethumbs</command> start each HTML file
+     with the text in <filename>page-start.txt</filename> with a
+     <filename>~/.makethumbsrc</filename> entry like this:
+  </para>
+  <informalexample>
+  <programlisting>
+     boilerplate_before_title="/www/htdocs/page-start.txt"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.boilerplate-end-of-page">
+
+  <refmeta>
+  <refentrytitle><varname>boilerplate_end_of_page</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>boilerplate_end_of_page</varname></refname>
+  <refname><varname>boilerplate_index_end_of_page</varname></refname>
+  <refname><varname>boilerplate_slideshow_end_of_page</varname></refname>
+  <refpurpose>replacement text for the very end of each HTML page</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     boilerplate_end_of_page="&lt;body&gt;&lt;html&gt;"
+     boilerplate_index_end_of_page="&lt;body&gt;&lt;html&gt;"
+     boilerplate_slideshow_end_of_page="&lt;body&gt;&lt;html&gt;"
+  </synopsis>
+  <anchor id="ref.boilerplate-index-end-of-page">
+  <anchor id="ref.boilerplate-slideshow-end-of-page">
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     These variables allow you to substitute your own
+     preferred text and markup for the very end of
+     every HTML page.  Important!  You must include the
+     &ldquo;&lt;<sgmltag>BODY</sgmltag>&gt;&lt;<sgmltag>HTML</sgmltag>&gt;&rdquo;
+     markup at the end&mdash;you're really controlling the very end of the
+     pages, nothing will be emitted except your text.
+  </para>
+  <para>
+     As with <varname>boilerplate_before_title</varname>,
+     <varname>boilerplate_after_title</varname>, and
+     <varname>boilerplate_insert_in_head</varname>, this variable has
+     three versions.  <varname>boilerplate_end_of_page</varname>
+     will be used for all HTML pages.  If you want to add something
+     to the end of only your <emphasis>index pages</emphasis>, you
+     should use <varname>boilerplate_index_end_of_page</varname>; to
+     change the end only on the <emphasis>slideshow pages</emphasis>
+     use <varname>boilerplate_slideshow_end_of_page</varname>.
+  </para>
+  <para>
+     Note that the <varname>boilerplate_end_of_page</varname>
+     variable will not be used if
+     <varname>boilerplate_index_end_of_page</varname> or
+     <varname>boilerplate_slideshow_end_of_page</varname> is set&mdash;those
+     will take precedence for their given sets of pages.
+  </para>
+  <para>
+     The difference between this set of variables and
+     <varname>boilerplate_footer</varname> are twofold.  First,
+     <varname>boilerplate_footer</varname> does not allow you to
+     discriminate between index and slideshow pages (for no particularly
+     good reason; two, <varname>boilerplate_footer</varname>
+     doesn't let you close out the HTML page.  If you're integrating
+     <command>makethumbs</command> with a complicated site design, you
+     might have some end-of-page template code which includes the closing
+     &lt;<sgmltag>BODY</sgmltag>&gt;&lt;<sgmltag>HTML</sgmltag>&gt; tags.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.boilerplate-footer">
+     <citerefentry><refentrytitle><varname>boilerplate_footer</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <para>
+     Assuming the template code for the end of your HTML pages is
+     in <filename>/www/htdocs/page-ending.txt</filename>, you can
+     have <command>makethumbs</command> close out each HTML file
+     with the text in <filename>page-ending.txt</filename> with a
+     <filename>~/.makethumbsrc</filename> entry like this:
+  </para>
+  <informalexample>
+  <programlisting>
+     boilerplate_end_of_page_FILE="/www/htdocs/page-ending.txt"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.boilerplate-footer">
+
+  <refmeta>
+  <refentrytitle><varname>boilerplate_footer</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>boilerplate_footer</varname></refname>
+  <refpurpose>text iplaced at the end of all HTML pages</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     boilerplate_footer=""
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     To have text placed at the bottom of all generated HTML pages, assign
+     that text to <varname>boilerplate_footer</varname>.  The value of
+     this variable will be placed on both index and slideshow pages.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.boilerplate-end-of-page">
+     <citerefentry><refentrytitle><varname>boilerplate_end_of_page</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <programlisting>
+     boilerplate_footer="&lt;hr /&gt;&lt;a href="/"&gt;&lt;i&gt;Jason's home page&lt;/i&gt;/&lt;a> / &lt;a href="/photos/">&lt;i>Jason's photos page&lt;/i>&lt;/a>"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.boilerplate-insert-in-head">
+
+  <refmeta>
+  <refentrytitle><varname>boilerplate_insert_in_head</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>boilerplate_insert_in_head</varname></refname>
+  <refname><varname>boilerplate_index_insert_in_head</varname></refname>
+  <refname><varname>boilerplate_slideshow_insert_in_head</varname></refname>
+  <refpurpose>HTML tags to be inserted in the <sgmltag>HEAD</sgmltag> section</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     boilerplate_insert_in_head=""
+     boilerplate_index_insert_in_head=""
+     boilerplate_slideshow_insert_in_head=""
+  </synopsis>
+  <anchor id="ref.boilerplate-slideshow-insert-in-head">
+  <anchor id="ref.boilerplate_index_insert_in_head">
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     These three variables are can contain text which will be inserted into
+     the <sgmltag>HEAD</sgmltag> section of generated web pages.  This might
+     be used to add some Javascript, CSS specification, or meta tags.
+  </para>
+  <para>
+     As with <varname>boilerplate_before_title</varname>,
+     <varname>boilerplate_after_title</varname>, and
+     <varname>boilerplate_end_of_page</varname>, this variable has
+     three versions.  <varname>boilerplate_insert_in_head</varname>
+     will be used for all HTML pages.  If you want to add something
+     to the header of only your <emphasis>index pages</emphasis>, you
+     should use <varname>boilerplate_index_insert_in_head</varname>; to
+     insert something only on the <emphasis>slideshow pages</emphasis>
+     use <varname>boilerplate_slideshow_insert_in_head</varname>.
+  </para>
+  <para>
+     Note that the <varname>boilerplate_insert_in_page</varname>
+     variable will not be used if
+     <varname>boilerplate_index_insert_in_head</varname> or
+     <varname>boilerplate_slideshow_insert_in_head</varname> is set&mdash;those
+     will take precedence for their given sets of pages.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.meta_tag"><citerefentry><refentrytitle><varname>meta_tag</varname></refentrytitle></citerefentry></link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <programlisting>
+     boilerplate_index_insert_in_head="&lt;meta name="robots" content="index,nofollow">"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.change_file_permissions">
+
+  <refmeta>
+  <refentrytitle><varname>change_file_permissions</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>change_file_permissions</varname></refname>
+  <refpurpose>controls whether <command>makethumbs</command> will change the permissions on files</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     change_file_permissions=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     When creating HTML files or images, <command>makethumbs</command>
+     will change the permissions on the created files so they are readable
+     by the web server process.  This is normally the correct thing to
+     do&mdash;if you have a restrictive <command>umask</command> set
+     but your files need to be world-readable for them to be visible
+     via the web server.
+  </para>
+  <para>
+     <varname>change_file_permissions</varname> is a boolean variable; set
+     it to <userinput>0</userinput> to make <command>makethumbs</command>
+     leave your file permissions alone.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.file_readable_permissions">
+     <citerefentry><refentrytitle><varname>file_readable_permissions</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.dir_transversible_permissions">
+     <citerefentry><refentrytitle><varname>dir_transversible_permission</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.columns">
+
+  <refmeta>
+  <refentrytitle><varname>columns</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>columns</varname></refname>
+  <refpurpose>number of columns of thumbnails</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    columns=3
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+    <para>
+    <varname>columns</varname> dictates how many columns of thumbnail
+    images will be placed on each row (line) of the index pages.  It is
+    an integer value.
+    </para>
+    <para>
+    In general, I recommend that your pages don't require browsers wider
+    than 640 pixels.  If have the default size of thumbnails 150x150
+    pixels, then I'd recommend four columns or fewer.  If your have smaller
+    thumbnail sizes, more columns work well.  If your have large captions,
+    that can also factor in to it.  Play around with your pages and this
+    setting, and see what works well for you&mdash;but keep in mind that
+    many people have smallish displays.
+    </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.max_thumb_size">
+     <citerefentry><refentrytitle><varname>max_thumb_size</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.compact_index_page">
+     <citerefentry><refentrytitle><varname>compact_index_page</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+</refentry>
+
+<refentry id="ref.compact_index_page">
+
+  <refmeta>
+  <refentrytitle><varname>compact_index_page</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>compact_index_page</varname></refname>
+  <refpurpose>create a denser index page than normal</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    compact_index_page=0
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <varname>compact_index_page</varname> is a meta-setting&mdash;setting
+     it to <userinput>1</userinput> will result in several variables being
+     set:
+  </para>
+  <informalexample>
+  <programlisting>
+    columns=6
+    index_table_spacing="tight"
+    max_thumb_size=75
+    print_captions=0
+  </programlisting>
+  </informalexample>
+  <para>
+     This gives you an index page with many more smaller thumbnails packed
+     together, with no captions.  You can achieve exactly the same effect
+     by setting all of the individual variables listed above.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.columns">
+     <citerefentry><refentrytitle><varname>columns</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.index_table_spacing">
+     <citerefentry><refentrytitle><varname>index_table_spacing</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.max_thumb_size">
+     <citerefentry><refentrytitle><varname>max_thumb_size</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.print_captions">
+     <citerefentry><refentrytitle><varname>print_captions</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+</refentry>
+
+<refentry id="ref.compression_level">
+
+  <refmeta>
+  <refentrytitle><varname>compression_level</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>compression_level</varname></refname>
+  <refpurpose>set the amount of compression used when creating reduced images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     compression_level=75
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> creates several smaller versions of
+     images.  If you are constrained for disk space, or want to keep the
+     downloads small, you can reduce the compression setting.  The default
+     is 75%; JPEG can often be compressed down to around 40-50% before you
+     start to see really obvious compression artifacts.  It depends a lot
+     on the type of image.
+  </para>
+  <para>
+     This option is most often used when your image galleries are hosted
+     on an ISP with a small disk quota.  You can usually be safe setting
+     the compression down to 50-60% and shave a third size off your 
+     image sizes or so.
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <programlisting>
+     compression_level=50
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.create_large_images">
+
+  <refmeta>
+  <refentrytitle><varname>create_large_images</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>create_large_images</varname></refname>
+  <refpurpose>create large versions of very large images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    create_large_images=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+    <para>
+    When <varname>create_large_images</varname> is enabled,
+    <command>makethumbs</command> create reduced and large size pictures
+    when necessary.
+    </para>
+    <para>
+    This variable is a boolean value, set it to <userinput>0</userinput> to
+    disable this feature.
+    </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.large_image_dimensions">
+     <citerefentry><refentrytitle><varname>large_image_dimensions</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+</refentry>
+
+<refentry id="ref.create_slideshow">
+
+<!-- FIXME create_slideshow should probably imply 
+     link_to_original_img_on_index.  And print_img_size_on_index. -->
+
+  <refmeta>
+  <refentrytitle><varname>create_slideshow</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>create_slideshow</varname></refname>
+  <refpurpose>determines whether slideshow pages should be created or not</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     create_slideshow=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> will create HTML pages for each image
+     so people can click around on them.  If you'd rather it not
+     do this, <varname>create_slideshow</varname> is for you.
+     When <varname>create_slideshow</varname> is disabled, the links on
+     the index page will point directly to JPEG files instead of to
+     HTML files that inline the JPEG images.
+  </para>
+  <para>
+     I can't imagine why anyone would want to use this, but the option
+     exists.  It's a boolean variable, so set it to <userinput>0</userinput>
+     to disable slideshow creation.  
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.link_to_original_img_on_index">
+     <citerefentry><refentrytitle><varname>link_to_original_img_on_index</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.print_img_size_on_index">
+     <citerefentry><refentrytitle><varname>print_img_size_on_index</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+</refentry>
+
+<refentry id="ref.date_formatting_text">
+
+  <refmeta>
+  <refentrytitle><varname>date_formatting_text</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>date_formatting_text</varname></refname>
+  <refpurpose>formatting style for printing dates</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     date_formatting_text="@MONTH@ @DAY@, @YEAR@"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     Given a day, year, and month, <command>makethumbs</command> has to
+     create a date string intelligibly.  In English we print dates like
+     "June 19, 1970".  In other languages, these will be in different
+     orders or with different seperator characters.  The value
+     for <replaceable>@MONTH@</replaceable> can be set via the
+     <varname>monthname</varname> class of variables.  This varable is
+     primarily localization variable.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.month_names">
+     <citerefentry><refentrytitle><varname>month_names</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <para>
+     To format dates in Portuguese, you'd use something like this:
+  </para>
+  <programlisting>
+     date_formatting_text="@DAY@ de @MONTH@ de @YEAR@"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.dates_filename">
+
+  <refmeta>
+  <refentrytitle><varname>dates_filename</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+    <refname><varname>dates_filename</varname></refname>
+    <refpurpose>the file where image dates are cached</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     dates_filename="<filename>dates.txt</filename>"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> will try, via a variety of means,
+     to guess the time and date each image was created.  Most of these
+     techniques involve the EXIF data embedded in photos taken by digital
+     cameras.  If new images are added to the directory and
+     <command>makethumbs</command> is run again, it will update
+     the <filename>dates.txt</filename> file to include them.
+     If <command>makethumbs</command> fails to correctly divine the
+     time and date of your images, you may update this file by hand if
+     you wish.  <command>makethums</command> will include the timestamps
+     on the slideshow pages, and possibly on the main index page if
+     better captions aren't available.
+  </para>
+
+  <para>
+     The filename <filename>dates.txt</filename> is arbitrary,
+     <command>makethumbs</command> can use any filename.
+  </para>
+
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.use_timestamps_as_captions">
+     <citerefentry><refentrytitle><varname>use_timestamps_as_captions</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.descriptions_filename">
+
+  <refmeta>
+  <refentrytitle><varname>descriptions_filename</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+     <refname><varname>descriptions_filename</varname></refname>
+     <refpurpose>the file where image captions/descriptions are stored</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     descriptions_filename="<filename>descriptions.txt</filename>"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     The <filename>descriptions.txt</filename> is used to record the
+     overall title of the images, a description of the images, captions
+     for individual images, and descriptions for individual images.
+     The filename choice can be any you please.  When files are added to
+     the directory and <command>makethumbs</command> is re-run, the
+     <filename>descriptions.txt</filename> is updated automatically to
+     include the newly added files.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.print_captions">
+     <citerefentry><refentrytitle><varname>print_captions</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.print_title_on_index">
+     <citerefentry><refentrytitle><varname>print_title_on_index</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.print_title_on_slideshow">
+     <citerefentry><refentrytitle><varname>print_title_on_slideshow</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.dir_transversible_permissions">
+
+  <refmeta>
+  <refentrytitle><varname>dir_transversible_permissions</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>dir_transversible_permissions</varname></refname>
+  <refpurpose><command>chmod</command> options to make a dir transversible</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     dir_transversible_permissions="a+x"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> goes to great lengths to operate
+     correctly despite highly restrictive <command>umask</command>
+     settings.  It <command>chmod</command>'s all of its created
+     files and the current working directory so that the files/dir
+     can be read by the web server.
+  </para>
+  <para>
+     You may not want <command>makethumbs</command> changing your
+     permissions on you (cf <varname>change_file_permissions</varname>),
+     or you may want to tweak the exact permissions it sets.  Both are
+     possible.
+  </para>
+  <para>
+     This variable has a permission specification to <command>chmod</command>.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.change_file_permissions">
+     <citerefentry><refentrytitle><varname>change_file_permissions</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.file_readable_permissions">
+     <citerefentry><refentrytitle><varname>file_readable_permissions</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <para>
+     If you'd like to have your directory set to mode 0750, you'd set
+     it like this:
+  </para>
+  <informalexample>
+  <programlisting>
+     dir_transversible_permissions="0750"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.file_readable_permissions">
+
+  <refmeta>
+  <refentrytitle><varname>file_readable_permissions</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>file_readable_permissions</varname></refname>
+  <refpurpose><command>chmod</command> options to make a file readable</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     file_readable_permissions="a+r,a-x"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> makes files world readable during
+     its execution.  The idea is that you may have a restrictive
+     <command>umask</command> setting, but the files may need to be world
+     readable to be visible via the web.  <command>makethumbs</command>'
+     <command>chmod</command>'ing behavior can be disabled entirely
+     (via <varname>change_file_permissions</varname>) or you can tweak
+     this setting.
+  </para>
+  <para>
+     The value of <varname>file_readable_permissions</varname> is something
+     that can be passed to <command>chmod</command> on the command line.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.change_file_permissions">
+     <citerefentry><refentrytitle><varname>change_file_permissions</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.dir_transversible_permissions">
+     <citerefentry><refentrytitle><varname>dir_transversible_permissions</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <para>
+     If you'd like to have all created files made group readable but
+     not world readable, you could use a setting like this:
+  </para>
+  <informalexample>
+  <programlisting>
+     change_file_permissions="g+r,g-x,o-rwx"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.html_charset">
+
+  <refmeta>
+  <refentrytitle><varname>html_charset</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>html_charset</varname></refname>
+  <refpurpose>specify the encoding of the text on your pages</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    html_charset=""
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> will not specify a
+     <command>Content-Encoding</command> for your web pages by default.
+     If you are adding text of non-American origin to your pages, you may
+     want to specify which encoding it is to help web browser programs.
+     Or just use American for everything.  It's all up to you.
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <para>
+     Setting <varname>html_charset</varname> to
+     "<userinput>iso-8859-1</userinput>" for Latin-1 aka ISO-8859-1, will
+     result in the following being added to the <sgmltag>HEAD</sgmltag> section
+     of all the HTML pages:
+  </para>
+  <informalexample>
+  <programlisting>
+     &lt;meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.html_file_suffix">
+
+  <refmeta>
+  <refentrytitle><varname>html_file_suffix</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>html_file_suffix</varname></refname>
+  <refpurpose>change the extensions used for all HTML files created</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    html_file_suffix="html"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     The extension used when creating all HTML files is determined by the
+     value of <varname>html_file_suffix</varname>.  
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <para>
+     The most common alternate setting of
+     <varname>html_file_suffix</varname> is to get HTML files created
+     with a "<filename>.htm</filename>" suffix, which you'd accomplish
+     like this:
+  </para>
+  <informalexample>
+  <programlisting>
+     html_file_suffix="htm"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.index_base_name">
+     <citerefentry><refentrytitle><varname>index_base_name</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.image_imprinting_text">
+
+  <refmeta>
+  <refentrytitle><varname>image_imprinting_text</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>image_imprinting_text</varname></refname>
+  <refpurpose>text to be imprinted at the bottom of all generated images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     image_imprinting_text=""
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     When <varname>image_imprinting_text</varname> is set to a string,
+     that string will be printed in yellow in the lower right
+     hand corner of every image <command>makethumbs</command>
+     creates.  <command>makethumbs</command> will not modify your
+     original image.  This feature depends on the presence of the
+     <command>mogrify</command> command from ImageMagick&mdash;I think it
+     is possible to do the same thing with NetPBM, but that's something
+     for the future.
+  </para>
+  <para>
+     This is most often used to put a credit or copyright on
+     your generated pages.  The original image is not modified,
+     of course, so you'll probably want to remove the original
+     versions (see <varname>remove_originals</varname> or
+     <option>--remove-originals</option>) if you want everyone to see
+     the credit on the images.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.remove_originals">
+     <citerefentry><refentrytitle><varname>remove_originals</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <para>
+     This setting will imprint &ldquo;<userinput>(C) 2002 Jason
+     Molenda</userinput>&rdquo; on all of your created images:
+  </para>
+  <informalexample>
+  <programlisting>
+     image_imprinting_text="(C) 2002 Jason Molenda"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.image_set_all_text">
+
+  <refmeta>
+  <refentrytitle><varname>image_set_all_text</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>image_set_all_text</varname></refname>
+  <refpurpose>image_set_all_text</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     image_set_all_text=All in one
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     When <command>makethumbs</command> has a large number of images,
+     it creates multiple <filename>index.html</filename> files.
+     The text of <varname>image_set_all_text</varname> is what
+     <command>makethumbs</command> puts in the link to the index page
+     with <emphasis>all</emphasis> images on it.
+  </para>
+  <para>
+     This variable is used exclusively for localization of
+     <command>makethumbs</command>' English phrases.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.image_set_n_text">
+     <citerefentry><refentrytitle><varname>image_set_n_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.rows_per_index_page">
+     <citerefentry><refentrytitle><varname>rows_per_index_page</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <para>
+     For a page with Portuguese, you might use:
+  </para>
+  <programlisting>
+     image_set_all_text="Todas Imagens"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.image_set_n_text">
+
+  <refmeta>
+  <refentrytitle><varname>image_set_n_text</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>image_set_n_text</varname></refname>
+  <refpurpose>image set text phrase</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     image_set_n_text="Image set @NUMBER@"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     When <command>makethumbs</command> has a large number of images,
+     it creates multiple <filename>index.html</filename> files.
+     The text of <varname>image_set_n_text</varname> is what
+     <command>makethumbs</command> puts in the on the pages when making
+     links to them.
+  </para>
+  <para>
+     This variable is used exclusively for localization of
+     <command>makethumbs</command>' English phrases.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.image_set_all_text">
+     <citerefentry><refentrytitle><varname>image_set_all_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.rows_per_index_page">
+     <citerefentry><refentrytitle><varname>rows_per_index_page</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <para>
+    For a German page, you'd use a setting like
+  </para>
+  <programlisting>
+     image_set_n_text="Bildersammlung @NUMBER@"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.image_xx_of_yy_text">
+
+  <refmeta>
+  <refentrytitle><varname>image_xx_of_yy_text</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>image_xx_of_yy_text</varname></refname>
+  <refpurpose>phrase put on slideshow pages to show current image number</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     image_xx_of_yy_text="Image @CURRENT@ of @TOTAL@"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> puts text at the top of each slideshow
+     page (per-image web page) to indicate what number the current image is
+     and the total number of images.
+  </para>
+  <para>
+     This variable is used exclusively for localization of
+     <command>makethumbs</command>' English phrases.
+  </para>
+
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <para>
+     If you're writing web pages in German, you might prefer that this text
+     be German instead, which you'd do with a setting like this:
+  </para>
+  <programlisting>
+     image_xx_of_yy_text="Bild @CURRENT@ von @TOTAL@"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.index_base_name">
+
+  <refmeta>
+  <refentrytitle><varname>index_base_name</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>index_base_name</varname></refname>
+  <refpurpose>set the name of the index files</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    index_base_name="index"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     This variable, in combination with the
+     <varname>html_file_suffix</varname> variable, determines what all
+     your index pages are named.  By default, the main index page is
+     <filename>index.html</filename>, but you can override this easily
+     enough.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.html_file_suffix">
+     <citerefentry><refentrytitle><varname>html_file_suffix</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <para>
+     To have your main index page named "<filename>pictures.html</filename>",
+     you would use:
+  </para>
+  <informalexample>
+  <programlisting>
+     index_base_name="pictures"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.index-page-title-start-html">
+
+  <refmeta>
+  <refentrytitle><varname>index_page_title_start_html</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>index_page_title_start_html</varname></refname>
+  <refname><varname>index_page_title_end_html</varname></refname>
+  <refpurpose>specifies the HTML markup used for the index title</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     index_page_title_start_html="&lt;h1 align="center">"
+     index_page_title_end_html="&lt;/h1>"
+  </synopsis>
+  <anchor id="ref.index_page_title_end_html">
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     The titles on the index pages are marked up with
+     &lt;<sgmltag>H1</sgmltag>&gt;.  It's a reasonable default, but many
+     people will prefer a smaller title size.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.slideshow-page-title-start-html">
+     <citerefentry><refentrytitle><varname>slideshow_page_title_start_html</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <programlisting>
+     index_page_title_start_html="&lt;font size="+1" align="center"&gt;"
+     index_page_title_end_html="&lt;/font&gt;"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.index_table_spacing">
+
+  <refmeta>
+  <refentrytitle><varname>index_table_spacing</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>index_table_spacing</varname></refname>
+  <refpurpose>determines how tightly packed the thumbnails are on the index pages</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     index_table_spacing="loose"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     The thumbnails on the index pages are contained within an
+     HTML <sgmltag>TABLE</sgmltag>, which can have various amounts
+     of spacing between the thumbnails.  You can choose to have
+     an index page with generous amounts of space between the
+     thumbnails (&ldquo;<userinput>loose</userinput>&rdquo;),
+     miserly amounts of space between the thumbnails
+     (&ldquo;<userinput>tight</userinput>&rdquo;), or the minimum amount
+     possible (&ldquo;<userinput>none</userinput>&rdquo;).
+  </para>
+  <para>
+     <varname>index_table_spacing</varname> is an unusual variable;
+     instead of a numeric value or arbitrary string it takes one of 
+     three valid settings:  <userinput>loose</userinput>,
+     <userinput>tight</userinput>, or <userinput>none</userinput>.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.compact_index_page">
+     <citerefentry><refentrytitle><varname>compact_index_page</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.print_captions">
+     <citerefentry><refentrytitle><varname>print_captions</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+</refentry>
+
+<refentry id="ref.large_image_dimensions">
+
+  <refmeta>
+  <refentrytitle>large image dimensions</refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+    <refname><varname>large_trigger_width</varname></refname>
+    <refname><varname>large_trigger_height</varname></refname>
+    <refname><varname>large_width</varname></refname>
+    <refname><varname>large_height</varname></refname>
+    <refpurpose>specify the size of large images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    large_trigger_width=1700
+    large_trigger_height=1300
+    large_width=1280
+    large_height=1024
+  </synopsis>
+  <anchor id="ref.large_trigger_width">
+  <anchor id="ref.large_trigger_height">
+  <anchor id="ref.large_width">
+  <anchor id="ref.large_height">
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     This collection of variables is consulted when creating
+     &ldquo;large&rdquo; images.  If an image is larger
+     than <varname>large_trigger_width</varname> x
+     <varname>large_trigger_height</varname>, a <emphasis>large</emphasis>
+     image is created for you within a bounding box of 
+     <varname>large_width</varname> x <varname>large_height</varname>.
+  </para>
+
+  <para>
+     The idea of the &ldquo;large&rdquo;
+     images are to add an intermediate step between the
+     <varname>reduced_image_dimensions</varname>
+     and the original image.  As things are usually configured, the
+     reduced images are around 640x480 pixels and many digital cameras
+     are creating 4-6 megapixel images.  The large images exist to
+     provide something between 640x480 and 2500x2000.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.create_large_images">
+     <citerefentry><refentrytitle><varname>create_large_images</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.reduce_big_pics">
+     <citerefentry><refentrytitle><varname>reduce_big_pics</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.reduced_image_dimensions">
+     <citerefentry><refentrytitle><varname>reduced_image_dimensions</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+</refentry>
+
+<refentry id="ref.link_to_original_img_on_index">
+
+<!-- FIXME this appears broken. :-(  And it should probably be enabled
+     by default when create_slideshow is set. -->
+
+  <refmeta>
+  <refentrytitle><varname>link_to_original_img_on_index</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>link_to_original_img_on_index</varname></refname>
+  <refpurpose>add a link to the original image on the index page</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     link_to_original_img_on_index=0
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     Long ago, <command>makethumbs</command> didn't create slideshow pages,
+     so the index page had a link to the original image and to the reduced
+     image.  These days the thumbnails are linked to the slideshow pages,
+     and that's where most people browsing should head.  So there isn't much
+     reason to link to the original image directly from the index page.
+     But the option is there for anyone who still wants that link.
+  </para>
+  <para>
+     <varname>link_to_original_img_on_index</varname> is a boolean variable;
+     set it to <userinput>1</userinput> to have links to your original images
+     on your index page.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.create_slideshow">
+     <citerefentry><refentrytitle><varname>create_slideshow</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.original_image_text">
+     <citerefentry><refentrytitle><varname>original_image_text</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.large_text">
+
+  <refmeta>
+  <refentrytitle><varname>large_text</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>large_text</varname></refname>
+  <refpurpose>phrase used to refer to large images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     large_text="large"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     Slideshow pages have links on the bottom to reduced, large, and
+     original images.  <varname>large_text</varname> is the English phrase
+     that'll be put on large image the link.  This is a localization
+     variable; it's used when modifying <command>makethumbs</command>'
+     output for a foreign language.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.reduced_text">
+     <citerefentry><refentrytitle><varname>reduced_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.original_text">
+     <citerefentry><refentrytitle><varname>original_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.original_image_text">
+     <citerefentry><refentrytitle><varname>original_image_text</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <para>
+     For Italian, you'd set this variable like this:
+  </para>
+  <programlisting>
+     large_text="ingrandita"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.max_thumb_size">
+
+  <refmeta>
+  <refentrytitle><varname>max_thumb_size</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>max_thumb_size</varname></refname>
+  <refpurpose>size of generated thumbnail images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    max_thumb_size=150
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+    <para>
+    <varname>max_thumb_size</varname> changes the number of pixels wide and
+    high that each thumbnail image will be.  You should adjust the number of
+    thumbnails per row in concert with the size of the thumbnails to maintain
+    a reasonable browser screen width.
+    </para>
+    <para>
+    This variable is an integer value.
+    </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.columns">
+     <citerefentry><refentrytitle><varname>columns</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.compact_index_page">
+     <citerefentry><refentrytitle><varname>compact_index_page</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.meta_tag">
+
+  <refmeta>
+  <refentrytitle><varname>meta_tag</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>meta_tag</varname></refname>
+  <refpurpose>add a <sgmltag>META</sgmltag> header in the <sgmltag>HEAD</sgmltag> section of generated pages</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     meta_tag=""
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     You can have a <sgmltag>META</sgmltag> header added to all generated
+     HTML files by setting this flag.  The text should be the full, well
+     formed <sgmltag>META</sgmltag> tag; <command>makethumbs</command>
+     will blindly insert the value of <varname>meta_tag</varname> into
+     the <sgmltag>HEAD</sgmltag> section of all HTML files.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See Also</title>
+  <para>
+  <link linkend="ref.boilerplate-insert-in-head">
+     <citerefentry><refentrytitle><varname>boilerplate_insert_in_head</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.boilerplate_index_insert_in_head">
+     <citerefentry><refentrytitle><varname>boilerplate_index_insert_in_head</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.boilerplate-slideshow-insert-in-head">
+     <citerefentry><refentrytitle><varname>boilerplate_slideshow_insert_in_head</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <programlisting>
+     meta_tag="&lt;meta name="robots" content="index,nofollow"&gt;"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.month_names">
+
+  <refmeta>
+  <refentrytitle><varname>month names</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>monthname_01_text</varname></refname>
+  <refname><varname>monthname_02_text</varname></refname>
+  <refname><varname>monthname_03_text</varname></refname>
+  <refname><varname>monthname_04_text</varname></refname>
+  <refname><varname>monthname_05_text</varname></refname>
+  <refname><varname>monthname_06_text</varname></refname>
+  <refname><varname>monthname_07_text</varname></refname>
+  <refname><varname>monthname_08_text</varname></refname>
+  <refname><varname>monthname_09_text</varname></refname>
+  <refname><varname>monthname_10_text</varname></refname>
+  <refname><varname>monthname_11_text</varname></refname>
+  <refname><varname>monthname_12_text</varname></refname>
+  <refpurpose>the names of the months</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    monthname_01_text="January"
+    monthname_02_text="February"
+    monthname_03_text="March"
+    monthname_04_text="April"
+    monthname_05_text="May"
+    monthname_06_text="June"
+    monthname_07_text="July"
+    monthname_08_text="August"
+    monthname_09_text="September"
+    monthname_10_text="October"
+    monthname_11_text="November"
+    monthname_12_text="December"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> loves to use month names in the oddest
+     places.  Well not so odd&mdash;it occasionally uses the timestamps
+     of photos as captions when it can't find anything better to use for
+     a caption.  These settings exist primarily for localization to other
+     languages.  If your language doesn't usually use names of the months
+     in its dates, you can set these to be numbers;<command>makethumbs</command>
+     doesn't care.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.use_timestamps_as_captions">
+     <citerefentry><refentrytitle><varname>use_timestamps_as_captions</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.usa_specific_date_format_checks">
+     <citerefentry><refentrytitle><varname>usa_specific_date_format_checks</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.date_formatting_text">
+     <citerefentry><refentrytitle><varname>"ref.date_formatting_text</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <para>
+    If you'd prefer German month names, you'd use settings like these:
+  </para>
+  <programlisting>
+    monthname_01_text="Januar"
+    monthname_02_text="Februar"
+    monthname_03_text="März"
+    monthname_04_text="April"
+    monthname_05_text="Mai"
+    monthname_06_text="Juni"
+    monthname_07_text="Juli"
+    monthname_08_text="August"
+    monthname_09_text="September"
+    monthname_10_text="Oktober"
+    monthname_11_text="November"
+    monthname_12_text="Dezember"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.original_image_text">
+
+  <refmeta>
+  <refentrytitle><varname>original_image_text</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>original_image_text</varname></refname>
+  <refpurpose>phrase used to refer to original images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     original_image_text="Original image"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     This phrase can show up on index pages when
+     <varname>link_to_original_img_on_index</varname> is enabled.
+     This is the English phrase used in the link to the original image.
+     This is a localization variable; it's used when modifying
+     <command>makethumbs</command>' output for a foreign language.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.reduced_text">
+     <citerefentry><refentrytitle><varname>reduced_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.large_text">
+     <citerefentry><refentrytitle><varname>large_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.original_text">
+     <citerefentry><refentrytitle><varname>original_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.link_to_original_img_on_index">
+     <citerefentry><refentrytitle><varname>link_to_original_img_on_index</varname></refentrytitle></citerefentry>
+  </link>
+
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <para>
+     For Italian, you'd set this variable like this:
+  </para>
+  <programlisting>
+     original_image_text="Immagine originale"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.original_text">
+
+  <refmeta>
+  <refentrytitle><varname>original_text</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>original_text</varname></refname>
+  <refpurpose>phrase used to refer to original images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     original_text="original"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     Slideshow pages have links on the bottom to reduced, large,
+     and original images.  <varname>original_text</varname> is the
+     English phrase that'll be put on original image the link.
+     This is a localization variable; it's used when modifying
+     <command>makethumbs</command>' output for a foreign language.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.reduced_text">
+     <citerefentry><refentrytitle><varname>reduced_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.large_text">
+     <citerefentry><refentrytitle><varname>large_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.original_image_text">
+     <citerefentry><refentrytitle><varname>original_image_text</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <para>
+     For Italian, you'd set this variable like this:
+  </para>
+  <programlisting>
+     original_text="originale"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.preferred_image_tools">
+
+  <refmeta>
+  <refentrytitle><varname>preferred_image_tools</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>preferred_image_tools</varname></refname>
+  <refpurpose>direct <command>makethumbs</command> to a specific image tool</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     preferred_image_tools=netpbm
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> can use either ImageMagick or netpbm
+     to do its image processing.  It detects the presence of either of these
+     toolsets at run-time.  If your system has both of them, and you'd prefer
+     that <command>makethumbs</command> use one of them in particular, use this
+     setting.
+  </para>
+  <para>
+     This is a nasty little hack variable.  Some systems have
+     really, really old netpbm and ImageMagick versions installed, and
+     <command>makethumbs</command> can't always parse these old versions'
+     odd output styles.  It makes me happiest if people report these problems
+     to me so I can add support for them, but as a quick hack, you can tell
+     <command>makethumbs</command> to disregard the tool it can't understand.
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <programlisting>
+     preferred_image_tools=imagemagick
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.print_captions">
+
+  <refmeta>
+  <refentrytitle><varname>print_captions</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>print_captions</varname></refname>
+  <refpurpose>determines whether <command>makethumbs</command> should print captions on the index</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     print_captions=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     By default, <command>makethumbs</command> will print a caption below
+     each thumbnail on the index pages.  It will use a caption if one
+     has been specified, or a time/date, or a filename, approximately
+     in that order of preference.  Some styles of index layout work better
+     without captions.
+  </para>
+ 
+  <para>
+     <varname>print_captions</varname> is a boolean, supply either a
+     <userinput>0</userinput> or <userinput>1</userinput> value.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.use_timestamps_as_captions">
+     <citerefentry><refentrytitle><varname>use_timestamps_as_captions</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.print_img_size_on_index">
+     <citerefentry><refentrytitle><varname>print_img_size_on_index</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.compact_index_page">
+     <citerefentry><refentrytitle><varname>compact_index_page</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.index_table_spacing">
+     <citerefentry><refentrytitle><varname>index_table_spacing</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.link_to_original_img_on_index">
+     <citerefentry><refentrytitle><varname>link_to_original_img_on_index</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.compact_index_page">
+     <citerefentry><refentrytitle><varname>compact_index_page</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.print_img_size_on_index">
+
+  <refmeta>
+  <refentrytitle><varname>print_img_size_on_index</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>print_img_size_on_index</varname></refname>
+  <refpurpose>include the image size in the index page captions</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    print_img_size_on_index=0
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     Before <command>makethumbs</command> created slideshow pages, it
+     used to add links directly to the original photos.  These photos
+     could be quite large, so it was sensible to warn users about the
+     size of the photo they were about to click on.  Nowadays, the default
+     case is that clicking on an image takes you to a reduced sized image,
+     which isn't very large and doesn't warrant a warning.  Some folks may
+     prefer to throw up an image size anyway, so the option remains.
+
+<!-- FIXME there is a bug where the image size of the orig image is always
+     displayed even though the link goes to the reduced one.  I should fix
+     that.  At least this is the case as of rev 1.211 in 2002-03-07 -->
+
+  </para>
+  <para>
+     <varname>print_img_size_on_index</varname> is a boolean; set to <userinput>1</userinput> to enable this feature.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.print_captions">
+     <citerefentry><refentrytitle><varname>print_captions</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.compact_index_page">
+     <citerefentry><refentrytitle><varname>compact_index_page</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.print_img_size_on_slideshow">
+
+  <refmeta>
+  <refentrytitle><varname>print_img_size_on_slideshow</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>print_img_size_on_slideshow</varname></refname>
+  <refpurpose>include the image size in the per-image (slideshow) page links</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     print_img_size_on_slideshow=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     At the bottom of each slideshow page (per-image web page), there may be
+     links to other sizes of the image (e.g. "reduced", "large", "original").
+     If <varname>print_img_size_on_slideshow</varname> is set to 
+     <userinput>0</userinput>, this is disabled and file sizes will not 
+     be displayed.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.slideshow_img_size_across_two_lines">
+     <citerefentry><refentrytitle><varname>slideshow_img_size_across_two_lines</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+</refentry>
+
+<refentry id="ref.print_title_on_index">
+
+  <refmeta>
+  <refentrytitle><varname>print_title_on_index</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>print_title_on_index</varname></refname>
+  <refpurpose>whether a title should be put on the index pages or not</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     print_title_on_index=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     Some people would prefer that no title be at the top of their
+     index page, usually to make the <command>makethumbs</command>
+     image gallery integrate with their site design better.  Thanks to
+     this handy little option, it's easy to do.
+  </para>
+  <para>
+     <varname>print_title_on_index</varname> is a boolean, set it to
+     <userinput>0</userinput> to suppress the title printing.  Keep in
+     mind that this variable only controls the title on the index pages;
+     use the <varname>print_title_on_slideshow</varname> option to set it
+     there as well.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.print_title_on_slideshow">
+     <citerefentry><refentrytitle><varname>print_title_on_slideshow</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.index-page-title-start-html">
+     <citerefentry><refentrytitle><varname>index_page_title_start_html</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.index_page_title_end_html">
+     <citerefentry><refentrytitle><varname>index_page_title_end_html</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.print_title_on_slideshow">
+
+  <refmeta>
+  <refentrytitle><varname>print_title_on_slideshow</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>print_title_on_slideshow</varname></refname>
+  <refpurpose>whether a title should be put on the slideshow pages or not</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     print_title_on_slideshow=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     Some people would prefer that no title be at the top of their
+     slideshow pages, usually to make the <command>makethumbs</command>
+     image gallery integrate with their site design better.  Thanks to
+     this handy little option, it's easy to do.
+  </para>
+  <para>
+     <varname>print_title_on_slideshow</varname> is a boolean, set it to
+     <userinput>0</userinput> to suppress the title printing.  Keep in
+     mind that this variable only controls the title on the slideshow pages;
+     use the <varname>print_title_on_index</varname> option to set it
+     there as well.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.print_title_on_index">
+     <citerefentry><refentrytitle><varname>print_title_on_index</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.slideshow-page-title-start-html">
+     <citerefentry><refentrytitle><varname>slideshow_page_title_start_html</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.slideshow_page_title_end_html">
+     <citerefentry><refentrytitle><varname>slideshow_page_title_end_html</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.reduce_big_pics">
+
+  <refmeta>
+  <refentrytitle><varname>reduce_big_pics</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>reduce_big_pics</varname></refname>
+  <refpurpose>create reduced versions of large images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    reduce_big_pics=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+    <para>
+    When <varname>reduce_big_pics</varname> is enabled,
+    <command>makethumbs</command> create reduced and large size pictures
+    when necessary.
+    </para>
+    <para>
+    This variable is a boolean value, set it to <userinput>0</userinput> to
+    disable this feature.
+    </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.reduced_image_dimensions">
+
+  <refmeta>
+  <refentrytitle>reduced image dimensions</refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+    <refname><varname>reduce_trigger_width</varname></refname>
+    <refname><varname>reduce_trigger_height</varname></refname>
+    <refname><varname>reduce_width</varname></refname>
+    <refname><varname>reduce_height</varname></refname>
+    <refpurpose>specify the size of reduced images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    reduce_trigger_width=1024
+    reduce_trigger_height=768
+    reduce_width=640
+    reduce_height=480
+  </synopsis>
+  <anchor id="ref.reduce_trigger_width">
+  <anchor id="ref.reduce_trigger_height">
+  <anchor id="ref.reduce_width">
+  <anchor id="ref.reduce_height">
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     This collection of variables is consulted when creating
+     &ldquo;reduced&rdquo; images.  If an image is larger
+     than <varname>reduce_trigger_width</varname> x
+     <varname>reduce_trigger_height</varname>, a <emphasis>reduced</emphasis>
+     image is created for you within a bounding box of 
+     <varname>reduce_width</varname> x <varname>reduce_height</varname>.
+  </para>
+
+  <para>
+     Feel free to change these settings, but keep two things in mind.
+     First, many people have browser windows about 640x480 big.  You can
+     create reduced images of 800x600, but it'll make it harder for your
+     users to see the images easily.  Second, keep the
+     <varname>trigger</varname> sizes larger than the destination image
+     sizes.  It is weak to reduce an image with dimensions of
+     802x603 to 800x600&mdash;you'll gain nothing in the process and you'll
+     lower the image quality in the process.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.reduce_big_pics">
+     <citerefentry><refentrytitle><varname>reduce_big_pics</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.reduced_text">
+
+  <refmeta>
+  <refentrytitle><varname>reduced_text</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>reduced_text</varname></refname>
+  <refpurpose>phrase used to refer to reduced images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     reduced_text="reduced"
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     Slideshow pages have links on the bottom to reduced, large,
+     and original images.  <varname>reduced_text</varname> is the
+     English phrase that'll be put on the reduced image link.
+     This is a localization variable; it's used when modifying
+     <command>makethumbs</command>' output for a foreign language.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.large_text">
+     <citerefentry><refentrytitle><varname>large_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.original_text">
+     <citerefentry><refentrytitle><varname>original_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.original_image_text">
+     <citerefentry><refentrytitle><varname>original_image_text</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <para>
+     For Italian, you'd set this variable like this:
+  </para>
+  <programlisting>
+     reduced_text="ridotta"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.remove_originals">
+
+  <refmeta>
+  <refentrytitle><varname>remove_originals</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>remove_originals</varname></refname>
+  <refpurpose>instruct <command>makethumbs</command> to remove original images</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    remove_originals=0
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     When <varname>remove_originals</varname> is set to
+     <userinput>1</userinput>, <command>makethumbs</command> will remove
+     the original image if it has created 
+     <link linkend="ref.reduce_big_pics">reduced</link> or 
+     <link linkend="ref.create_large_images">large</link> images.
+   </para>
+
+   <para>
+     This option is most often used when you have a small amount
+     of disk space for your web pages.  It is usually activated with
+     the <option>--remove-originals</option> command line option.  If
+     you have both reduced images and large images in addition to the
+     original images, <varname>remove_originals</varname> will remove
+     the original images and <emphasis>promote</emphasis> the large
+     images to the original images.  If you run
+     <command>makethumbs</command> again with the same option in the same
+     directory, the current-original images (which are really the large
+     images that <command>makethumbs</command> created previously) are
+     removed and the reduced images are promoted to the original filenames.
+   </para>
+
+   <para>
+     Because of the way this command works, it is usually best to use the
+     command line option instead of the <filename>.makethumbsrc</filename>
+     setting.  If you set <varname>remove_originals</varname> in the
+     <filename>.makethumbsrc</filename> file, you're likely to always
+     end up with the reduced (640x480 by default) images as the only
+     images available to your useres.
+   </para>
+
+   <para>
+     This option can also be useful if you are imprinting
+     attributions/copyrights on to your images via the 
+     <link linkend="ref.image_imprinting_text">image_imprinting_text</link> so 
+     that you can remove the original images which don't have the text 
+     imprinted on them.
+   </para>
+
+   <para>
+     <varname>remove_originals</varname> is a boolean variable with a valid
+     setting of either <userinput>0</userinput> or <userinput>1</userinput>.
+   </para>
+
+   <caution>
+   <para>
+     Your original images will most likely be removed when
+     <varname>remove_originals</varname> is enabled.  Don't run this
+     on your only copy of an image your <emphasis>you will lose that
+     image!</emphasis>.  This is one of the only times that makethumbs
+     will ever touch any of your original images, but it's a doosey so
+     please be careful.
+   </para>
+   </caution>
+
+   </refsect1>
+
+   <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.image_imprinting_text">
+     <citerefentry><refentrytitle><varname>image_imprinting_text</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.compression_level">
+     <citerefentry><refentrytitle><varname>compression_level</varname></refentrytitle></citerefentry>
+  </link>
+
+   </para>
+   </refsect1>
+</refentry>
+
+<refentry id="ref.rows_per_index_page">
+
+  <refmeta>
+  <refentrytitle><varname>rows_per_index_page</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>rows_per_index_page</varname></refname>
+  <refpurpose>the number of rows of thumbnails per page</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     rows_per_index_page=10
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> creates multiple index pages
+     when there are lots of images in the directory.  The number
+     of thumbnails to put on each page is determined by this
+     variable and by <varname>columns</varname>.  The default
+     setting is <userinput>10</userinput> rows, with a default of
+     <userinput>3</userinput> columns, or thirty thumbnails per page.
+  </para>
+  <para>
+     <command>makethumbs</command> avoids dangling images, so you may
+      end up with a couple extra images on the final page instead of
+      a final web page with one or two thumbnails on it.
+  </para>
+  <para>
+      <varname>rows_per_index_page</varname> is, of course, an integer value.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.columns">
+     <citerefentry><refentrytitle><varname>columns</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.single_index_page">
+     <citerefentry><refentrytitle><varname>single_index_page</varname></refentrytitle></citerefentry>
+  </link>
+
+  </para>
+  </refsect1>
+
+</refentry>
+
+<refentry id="ref.show_image_info">
+
+  <refmeta>
+  <refentrytitle><varname>show_image_info</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>show_image_info</varname></refname>
+  <refpurpose>whether the image shot information should be visible or not</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     show_image_info=0
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> will try to use an external program
+     to read the EXIF data out of the images.  Digital cameras record
+     things like the shutter speed, aperture, time when the photo was
+     taken, etc., and record this data in the image in EXIF format.
+     Normally <command>makethumbs</command> includes this information
+     as an HTML comment on the slideshow pages.  It's occasionally
+     interesting if you're curious about why an image is blurry or
+     something, but it's just noise for most browsers.  
+  </para>
+  <para>
+     If you'd like to have this information visible on your
+     slideshow pages, set <varname>show_image_info</varname> to
+     <userinput>1</userinput>.
+  </para>
+  </refsect1>
+
+</refentry>
+
+
+<refentry id="ref.show_progress">
+
+  <refmeta>
+  <refentrytitle><varname>show_progress</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>show_progress</varname></refname>
+  <refpurpose>indicate progress to user as <command>makethumbs</command> runs</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    show_progress=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> prints information to the user
+     while it is executing to indicate how the script is progressing.
+     With larger galleries, <command>makethumbs</command> can take a
+     long time&mdash;over fifteen minutes for six hundred images in one
+     case&mdash;and it's nice to see that everything is still working.
+  </para>
+  <para>
+     <varname>show_progress</varname> is a boolean value, so set it to
+     <userinput>0</userinput> to disable the progress output.
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.show_timings">
+
+  <refmeta>
+  <refentrytitle><varname>show_timings</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>show_timings</varname></refname>
+  <refpurpose>tell the user how long each stage of <command>makethumbs</command> took</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    show_timings=0
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command>, in concert with its progress printing,
+     can report how many seconds each stage took to complete.  It is
+     mostly useful when benchmarking <command>makethumbs</command>
+     itself and working on improving efficiencies&mdash;it might be fun
+     for other people to enable, but not something that would be useful for
+     general folks.
+  </para>
+  <para>
+     <varname>show_timings</varname> is a boolean value, so set it to
+     <userinput>1</userinput> to enable the time reporting.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+    <link linkend="ref.show_progress">
+       <citerefentry><refentrytitle><varname>show_progress</varname></refentrytitle></citerefentry>
+    </link>
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.single_index_page">
+
+  <refmeta>
+  <refentrytitle><varname>single_index_page</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>single_index_page</varname></refname>
+  <refpurpose>whether <command>makethumbs</command> will create multiple index pages or not</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     single_index_page=0
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     Normally, <command>makethumbs</command> will create multiple index
+     pages if you have a lot of images.  The alternative is to have a
+     single index page with all of your images.  When your directory has
+     many images, this can get unwieldy and hard for people to navigate.
+     It's up to you.
+  </para>
+  <para>
+     <varname>single_index_page</varname> is a boolean variable; set it to
+     <userinput>1</userinput> to make <command>makethumbs</command> create
+     only a single index page.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.rows_per_index_page">
+     <citerefentry><refentrytitle><varname>rows_per_index_page</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <programlisting>
+     single_index_page=1
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.slideshow_images_are_clickable">
+
+  <refmeta>
+  <refentrytitle><varname>slideshow_images_are_clickable</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>slideshow_images_are_clickable</varname></refname>
+  <refpurpose>whether the images on slideshow pages are links</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     slideshow_images_are_clickable=0
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     By default, the images displayed on the slideshow pages are not
+     links to anything--this makes it easier to scroll around the window
+     without clicking on anything by accident.  If you set this variable,
+     the images will be linked.  The links will cycle through the various
+     sizes of the images&mdash;reduced, large, and original as exists.
+  </para>
+  </refsect1>
+
+</refentry>
+
+<refentry id="ref.slideshow_img_size_across_two_lines">
+
+  <refmeta>
+  <refentrytitle><varname>slideshow_img_size_across_two_lines</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>slideshow_img_size_across_two_lines</varname></refname>
+  <refpurpose>file sizes should be seperate from the file type name</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     slideshow_img_size_across_two_lines=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     At the bottom of slideshow pages (per-image HTML pages), links to different
+     sizes of the image are listed (e.g. "reduced", "large", "original") with
+     the sizes of the files if
+     <varname>print_img_size_on_slideshow</varname> is set (which is
+     the default).  When these links are listed with their sizes, if
+     <varname>slideshow_img_size_across_two_lines</varname> is set, the
+     file size is on a seperate line from the file type ("large" et al).
+  </para>
+
+  <para>
+     Vertical space is a precious commodity, and links to image variants
+     come before any image description&mdash;the result is that people may
+     have to scroll down to see the image description.  The default layout
+     is to have the file type ("large") on one line and the file size
+     ("375k") on the second; this uses one more line of veritcal space than
+     strictly necessary.  Setting this to <userinput>0</userinput> will give
+     you links like "Large 375k".
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.print_img_size_on_slideshow">
+     <citerefentry><refentrytitle><varname>print_img_size_on_slideshow</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.slideshow_navigation_markup">
+
+  <refmeta>
+  <refentrytitle><varname>slideshow navigation markup</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>slideshow_previous_pre_link</varname></refname>
+  <refname><varname>slideshow_previous</varname></refname>
+  <refname><varname>slideshow_previous_post_link</varname></refname>
+  <refname><varname>slideshow_ret_to_index_pre_link</varname></refname>
+  <refname><varname>slideshow_ret_to_index</varname></refname>
+  <refname><varname>slideshow_ret_to_index_post_link</varname></refname>
+  <refname><varname>slideshow_next_pre_link</varname></refname>
+  <refname><varname>slideshow_next</varname></refname>
+  <refname><varname>slideshow_next_post_link</varname></refname>
+  <refpurpose>specifies the markup for slideshow page navigation</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    slideshow_previous_pre_link="&lt;h2>["
+    slideshow_previous="previous"
+    slideshow_previous_post_link="]&lt;/h2>"
+    slideshow_ret_to_index_pre_link="&lt;h2>["
+    slideshow_ret_to_index="index"
+    slideshow_ret_to_index_post_link="]&lt;/h2>"
+    slideshow_next_pre_link="&lt;h2>["
+    slideshow_next="next"
+    slideshow_next_post_link="]&lt;/h2>"
+  </synopsis>
+  <anchor id="ref.slideshow_previous_pre_link">
+  <anchor id="ref.slideshow_previous">
+  <anchor id="ref.slideshow_previous_post_link">
+  <anchor id="ref.slideshow_ret_to_index_pre_link">
+  <anchor id="ref.slideshow_ret_to_index">
+  <anchor id="ref.slideshow_ret_to_index_post_link">
+  <anchor id="ref.slideshow_next_pre_link">
+  <anchor id="ref.slideshow_next">
+  <anchor id="ref.slideshow_next_post_link">
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     Using these variables, you can easily override the navigation on
+     slideshow (per-image) pages.  You can make the navigation words larger,
+     smaller, translate them to a foreign language, make them more amusing,
+     substitute in images.  The possibilities are endless.
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+    <para>
+      &lt;<sgmltag>H2</sgmltag>&gt; is rather large.  If you'd prefer
+      &lt;<sgmltag>H3</sgmltag>&gt; sized navigation, this would do it.
+    </para>
+    <programlisting>
+      slideshow_page_title_start_html=&lt;h3&gt;
+      slideshow_page_title_end_html=&lt;/h3&gt;
+      slideshow_previous_pre_link=&lt;h3&gt;[
+      slideshow_previous_post_link=]&lt;/h3&gt;
+      slideshow_next_pre_link=&lt;h3&gt;[
+      slideshow_next_post_link=]&lt;/h3&gt;
+      slideshow_ret_to_index_pre_link=&lt;h3&gt;[
+      slideshow_ret_to_index_post_link=]&lt;/h3&gt;
+    </programlisting>
+  </informalexample>
+
+  <informalexample>
+    <para>
+      Images can be nice for navigation instead of words.  These settings
+      are likely to work on an Apache installation.
+    </para>
+    <programlisting>
+      slideshow_previous_pre_link=""
+      slideshow_previous="&lt;img src="/icos/left.png" /&gt;"
+      slideshow_previous_post_link=""
+
+      slideshow_next_pre_link=""
+      slideshow_next="&lt;img src="/icos/right.png" /&gt;"
+      slideshow_next_post_link=""
+
+      slideshow_ret_to_index_pre_link=""
+      slideshow_ret_to_index="&lt;img src="/icos/up.png" /&gt;"
+      slideshow_ret_to_index_post_link=""
+    </programlisting>
+  </informalexample>
+
+  <informalexample>
+    <para>
+      Like French better than English?  Not a problem:
+    </para>
+    <programlisting>
+      slideshow_previous="Précédente"
+      slideshow_ret_to_index="Index"
+      slideshow_next="Suivante"
+    </programlisting>
+  </informalexample>
+
+  </refsect1>
+</refentry>
+
+<refentry id="ref.slideshow-page-title-start-html">
+
+  <refmeta>
+  <refentrytitle><varname>slideshow_page_title_start_html</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>slideshow_page_title_start_html</varname></refname>
+  <refname><varname>slideshow_page_title_end_html</varname></refname>
+  <refpurpose>specifies the HTML markup used for the slideshow page titles</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     slideshow_page_title_start_html="&lt;h2&gt;"
+     slideshow_page_title_end_html="&lt;/h2&gt;"
+  </synopsis>
+  <anchor id="ref.slideshow_page_title_end_html">
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     The titles on the slideshow pages are marked up with
+     &lt;<sgmltag>H2</sgmltag>&gt;.  It's a reasonable default, but many
+     people will prefer a smaller title size.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.index-page-title-start-html">
+     <citerefentry><refentrytitle><varname>index_page_title_start_html</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <programlisting>
+     slideshow_page_title_start_html="&lt;font size="+1"&gt;"
+     slideshow_page_title_end_html="&lt;/font&gt;"
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.slideshow_print_javascript_navigation">
+
+  <refmeta>
+  <refentrytitle><varname>slideshow_print_javascript_navigation</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>slideshow_print_javascript_navigation</varname></refname>
+  <refpurpose>disable or enable Javascript on slideshow pages</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     slideshow_print_javascript_navigation=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> inserts Javascript code into each slideshow
+     (per-image) web page to easily move through the images.  Users can press
+     <userinput>n</userinput> or <userinput>k</userinput> to move to the next
+     image; they can press <userinput>p</userinput> or <userinput>j</userinput>
+     to move to the previous image.  It's very easy to flip through a gallery
+     if you know about these keyboard shortcuts.
+  </para>
+  <para>
+     Set <varname>slidesohw_print_javascript_navigation</varname> to
+     <userinput>0</userinput> if you'd prefer your web pages not have
+     Javascript in them.
+  </para>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.this_page_created_text">
+
+  <refmeta>
+  <refentrytitle><varname>this_page_created_text</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>this_page_created_text</varname></refname>
+  <refpurpose>text emitted at the bottom of index pages</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     this_page_created_text=This page @LINKSTART@created@LINKEND@ on @DATE@.
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> adds this tag to the bottom of each web
+     page.  It includes two things:  The date the gallery was created, and a
+     link to the <command>makethumbs</command> home page so other people can
+     find <command>makethumbs</command> if they'd like to use it.
+  </para>
+  <para>
+     This variable primarily exists for localization, this is, translating
+     into foreign languages.  If you don't want to have any of these
+     timestamps and links at the bottom of your pages, you can always
+     set it to nothing.  The bits like <userinput>@LINKSTART@</userinput>
+     will be substituted into the string by <command>makethumbs</command>
+     at runtime.
+  </para>
+  </refsect1>
+
+  <refsect1><title>Examples</title>
+  <informalexample>
+  <para>
+    If you're creating web pages for Italian readers, you might want to set this
+    variable to something like this.
+   </para>
+  <programlisting>
+    this_page_created_text="Questa pagina @LINKSTART@creata@LINKEND@ il @DATE@."
+  </programlisting>
+  </informalexample>
+  </refsect1>
+</refentry>
+
+<refentry id="ref.usa_specific_date_format_checks">
+
+  <refmeta>
+  <refentrytitle><varname>usa_specific_date_format_checks</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>usa_specific_date_format_checks</varname></refname>
+  <refpurpose>whether <command>makethumbs</command> will recognize dates in US order</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     usa_specific_date_format_checks=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> tries a variety of means to find the
+     times and dates of images.  Some of these checks depend on filenames
+     and directories, looking for date-like things in them.
+  </para>
+  <para>
+     Unfortunately, not everyone writes their dates in proper ISO 8601
+     format.  In the US, the day March 8th is written 3/8 and the date
+     March 8 2002 is written 3/8/02 or 3/8/2002.  In many other parts of
+     the world, this date would be written 8/3 or 8/3/02.  Poor little
+     <command>makethumbs</command> has no way to tell what part of the world
+     it is running in, so it assumes that it might be running in the US, and
+     will interpret a date like 3/8/2002 as March 8th 2002.
+  </para>
+  <para>
+     If you don't live in the US, you should probably set this variable
+     to <userinput>0</userinput> so <command>makethumbs</command> doesn't
+     misinterpret a date in your files or directories.  Or you can move
+     to the US, whatever works best for you.
+  </para>
+  <para>
+     <varname>usa_specific_date_format_checks</varname> is a boolean variable;
+     set it to <userinput>0</userinput> to indicate that dates should not
+     be interpreted in the US order.
+  </para>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.use_timestamps_as_captions">
+     <citerefentry><refentrytitle><varname>use_timestamps_as_captions</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+
+
+<refentry id="ref.use_timestamps_as_captions">
+
+  <refmeta>
+  <refentrytitle><varname>use_timestamps_as_captions</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>use_timestamps_as_captions</varname></refname>
+  <refpurpose>determines whether timestamps may be used as captions</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+     use_timestamps_as_captions=1
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+  <para>
+     <command>makethumbs</command> has an involved algorithm
+     for determining what to use as a caption under images
+     on the index page.  If you've added a caption to your
+     <filename>descriptions.txt</filename> file, that will be used.
+     Lacking that, if the filename of the image looks interesting, that
+     will be used.  Lacking that, if a timestamp is available for the
+     image, that will be used.
+  </para>
+  <para>
+     Sometimes you won't want the timestamps used as a caption.  If you've
+     travelled far out of your timezone and the camera was not adjusted
+     to account for that, or the camera's clock is vastly incorrect, then
+     the times of the photos are not useful.  When Andrew Morton put his
+     Thailand photos on-line with <command>makethumbs</command>, he had
+     tmes in the middle of the night, with pictures of mid afternoon
+     light&mdash;a perfect time to instruct <command>makethumbs</command>
+     to ignore the timestamps.
+  </para>
+  <para>
+     <varname>use_timestamps_as_captions</varname> is a boolean variable;
+     set it to <userinput>0</userinput> to disable this feature.
+  </para>
+  </refsect1>
+
+  <refsect1><title></title>
+  <sidebar><title>Dates in captions</title>
+  <para>
+     <command>makethumbs</command> will use the <emphasis>time</emphasis>
+     of a photo as the caption if all the images in the directory were
+     shot on the same day.  <command>makethumbs</command> will use the
+     <emphasis>date</emphasis> of the photo if the images in the directory
+     were taken on seperate days.  None of this will be done unless
+     the image filename is determined to be &ldquo;uninteresting&rdquo;.
+     An uninteresting filename is a filename that looks like something
+     a digital camera generated, with no inherent meaning to people.
+  </para>
+  </sidebar>
+  </refsect1>
+
+  <refsect1><title>See also</title>
+  <para>
+  <link linkend="ref.print_captions">
+     <citerefentry><refentrytitle><varname>print_captions</varname></refentrytitle></citerefentry>
+  </link>
+  ,
+  <link linkend="ref.compact_index_page">
+     <citerefentry><refentrytitle><varname>compact_index_page</varname></refentrytitle></citerefentry>
+  </link>
+  </para>
+  </refsect1>
+</refentry>
+     
+
+<refentry id="ref.use_two_windows">
+
+  <refmeta>
+  <refentrytitle><varname>use_two_windows</varname></refentrytitle>
+  </refmeta>
+
+  <refnamediv>
+  <refname><varname>use_two_windows</varname></refname>
+  <refpurpose>open a seperate window for image viewing</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+  <synopsis>
+    use_two_windows=0
+  </synopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>Description</title>
+    <para>
+    When <varname>use_two_windows</varname> mode is enabled, a seperate
+    browser window is opened when people click on thumbnails.  This option
+    is not very useful these days with the slideshow mode, but it's easy
+    to support so I leave it in.
+    </para>
+    <para>
+    This variable is a boolean value, set it to either
+    <userinput>0</userinput> or <userinput>1</userinput>.
+    </para>
+  </refsect1>
+</refentry>
+
+
+</reference>
+</part>
+</book>
