@@ -4,7 +4,7 @@ Version:	1.239
 Release:	5
 License:	Public Domain
 Group:		Graphics
-URL:		http://www.molenda.com/makethumbs/
+URL:		https://www.molenda.com/makethumbs/
 Source1:	http://www.molenda.com/makethumbs/makethumbs.sh
 Source2:	http://www.molenda.com/makethumbs/rotate.sh
 Source3:	http://www.molenda.com/makethumbs/doc/makethumbs.sgml
