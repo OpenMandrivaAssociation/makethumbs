@@ -10,6 +10,7 @@ Source2:	http://www.molenda.com/makethumbs/rotate.sh
 Source3:	http://www.molenda.com/makethumbs/doc/makethumbs.sgml
 Requires:	imagemagick
 Suggests:	metacam jhead
+BuildRequires:	make
 BuildRequires:	docbook-utils-pdf docbook-utils docbook-dtd41-sgml
 BuildRequires:	texlive
 BuildArch:	noarch
